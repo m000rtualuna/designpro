@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% block title %}<title>Design.pro</title>{% endblock %}
+    <meta charset="utf-8"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'posts/styles.css' %}"/>
+</head>
+
+<body>
+<div class="container">
+    {% block sidebar %}
+    <ul class="nav">
+        <li><a href="{% url 'posts:index' %}">Главная</a></li>
+        <li><a href="{% url 'posts:login' %}">Вход</a></li>
+        <li><a href="{% url 'posts:registration' %}">Регистрация</a></li>
+    </ul>
+    {% endblock %}
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+</body>
+</html>
+
