@@ -8,4 +8,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('accounts/login', PostsLoginView.as_view(), name='login'),
     path('accounts/registration', views.register, name='registration'),
+    path('accounts/profile', views.profile, name='profile'),
+    path('accounts/logout/', views.logout_view, name='logout'),
 ]

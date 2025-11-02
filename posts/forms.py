@@ -56,7 +56,7 @@ class RegistrationForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password"])
         if commit:
             user.save()
-            return user
+        return user
 
     def clean_agreement(self):
         agreement = self.cleaned_data.get('agreement')

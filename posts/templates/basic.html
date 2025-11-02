@@ -12,8 +12,12 @@
     {% block sidebar %}
     <ul class="nav">
         <li><a href="{% url 'posts:index' %}">Главная</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'posts:profile' %}">Профиль</a></li>
+        {% else %}
         <li><a href="{% url 'posts:login' %}">Вход</a></li>
         <li><a href="{% url 'posts:registration' %}">Регистрация</a></li>
+        {% endif %}
     </ul>
     {% endblock %}
     <div class="content">
