@@ -7,7 +7,8 @@ from django.views.generic import RedirectView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('superadmin/', admin.site.urls),
+    path('posts/', include('posts.urls')),
     path('catalog/', include('posts.urls')),
     path('', RedirectView.as_view(url='posts/', permanent=True)),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
