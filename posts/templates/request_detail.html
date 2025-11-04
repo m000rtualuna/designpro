@@ -1,0 +1,12 @@
+{% extends "basic.html" %}
+{% block content %}
+<div class="request">
+    <li>
+        <a href="">{{ userrequest.title }}</a>
+        <p>{{ userrequest.description }}</p>
+        <p>Статус: {{ userrequest.get_status_display }}</p>
+        <img src="{{ userrequest.image.url }}" class="img" alt="Фото">
+    </li>
+    <a href="{% url 'posts:request_delete' pk=userrequest.pk %}" class="delete">Удалить заявку</a>
+</div>
+{% endblock %}

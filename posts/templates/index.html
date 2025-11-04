@@ -1,7 +1,21 @@
 {% extends "basic.html" %}
 {% block content %}
-<div class="main">
-    <h2>Добро пожаловать в Design.pro!</h2>
-    <p>Cайт находится в активной разработке</p>
-</div>
+    <h2>Наши проекты</h2>
+    {% if userrequest_list %}
+    <p>Количество принятых в работу заявок: {{ accepted_count }}</p>
+    <ul>
+    {% for req in userrequest_list %}
+        <div class="request">
+    <li>
+        <a href="{% url 'posts:request_detail' pk=req.id %}">{{ req.title }}</a>
+        <p>{{ req.description }}</p>
+        <p>Статус: {{ req.get_status_display }}</p>
+        <img src="{{ req.image.url }}" class="img" alt="Фото">
+    </li>
+        </div>
+    {% endfor %}
+</ul>
+    {% else %}
+      <p>Заявок пока нет</p>
+    {% endif %}
 {% endblock %}

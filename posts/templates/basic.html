@@ -14,7 +14,9 @@
         <li><a href="{% url 'posts:index' %}">Главная</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url 'posts:profile' %}">Профиль</a></li>
+        <li><a href="{% url 'posts:create_request' %}">Заказать дизайн</a></li>
         {% else %}
+        <li><a href="{% url 'posts:login' %}">Заказать дизайн</a></li>
         <li><a href="{% url 'posts:login' %}">Вход</a></li>
         <li><a href="{% url 'posts:registration' %}">Регистрация</a></li>
         {% endif %}

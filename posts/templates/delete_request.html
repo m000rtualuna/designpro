@@ -1,0 +1,10 @@
+{% extends "basic.html" %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>Вы уверены, что хотите удалить заявку "{{ object.title }}"?</p>
+    <input type="submit" value="Удалить">
+    <a href="{% url 'posts:request_detail' pk=object.pk %}">Отмена</a>
+</form>
+{% endblock %}
+

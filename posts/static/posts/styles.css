@@ -105,3 +105,54 @@ form button[type="submit"] {
     cursor: pointer;
     margin-top: 1em;
 }
+
+.logout, .delete {
+    display: block;
+    width: 10em;
+    padding: 0.5em;
+    background-color: #c082db;
+    color: #444444;
+    border: none;
+    cursor: pointer;
+    margin-top: 1em;
+    text-decoration: none;
+    color: #444444;
+    justify-content: center;
+    display: flex;
+}
+
+.request {
+    max-width: 50em;
+    margin: 2em auto;
+    padding: 1em;
+    border: 2px solid #c082db;
+}
+
+.request li a {
+    font-size: 1.5em;
+    color: #c082db;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+}
+
+.request li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+}
+
+ul {
+    list-style: none;
+}
+
+.request .img {
+    max-width: 30%;
+    height: auto;
+    display: block;
+}
+
+p {
+    color: #c082db;
+}
+

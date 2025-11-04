@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 import re
 
+from posts.models import UserRequest
+
 User = get_user_model()
 
 class RegistrationForm(forms.ModelForm):
@@ -63,3 +65,8 @@ class RegistrationForm(forms.ModelForm):
         if not agreement:
             raise forms.ValidationError('Вы должны согласиться на обработку персональных данных')
         return agreement
+
+class RequestForm(forms.ModelForm):
+    class Meta:
+        model = UserRequest
+        fields = ['title', 'description', 'image']

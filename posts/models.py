@@ -1,5 +1,8 @@
+from datetime import datetime
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from designpro import settings
 
 
 class AdvUser(AbstractUser):
@@ -11,3 +14,17 @@ class AdvUser(AbstractUser):
 
     class Meta:
         pass
+
+STATUS = (
+    ('n', 'Новая заявка'),
+    ('a', 'Принято в работу'),
+    ('d', 'Выполнено'),
+)
+
+class UserRequest(models.Model):
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
+    pub_date = models.DateTimeField(default=datetime.now)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='media/', blank=False, null=True)
+    status = models.CharField(max_length=1, choices=STATUS, default='n')
