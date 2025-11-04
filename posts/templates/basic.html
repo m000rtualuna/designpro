@@ -6,19 +6,18 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'posts/styles.css' %}"/>
 </head>
-
 <body>
 <div class="container">
     {% block sidebar %}
     <ul class="nav">
-        <li><a href="{% url 'posts:index' %}">Главная</a></li>
+        <a href="{% url 'posts:index' %}">Главная</a>
         {% if user.is_authenticated %}
-        <li><a href="{% url 'posts:profile' %}">Профиль</a></li>
-        <li><a href="{% url 'posts:create_request' %}">Заказать дизайн</a></li>
+        <a href="{% url 'posts:profile' %}">Профиль</a></li>
+        <a href="{% url 'posts:create_request' %}">Заказать дизайн</a>
         {% else %}
-        <li><a href="{% url 'posts:login' %}">Заказать дизайн</a></li>
-        <li><a href="{% url 'posts:login' %}">Вход</a></li>
-        <li><a href="{% url 'posts:registration' %}">Регистрация</a></li>
+        <a href="{% url 'posts:login' %}">Заказать дизайн</a>
+        <a href="{% url 'posts:login' %}">Вход</a>
+        <a href="{% url 'posts:registration' %}">Регистрация</a>
         {% endif %}
     </ul>
     {% endblock %}

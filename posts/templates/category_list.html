@@ -1,0 +1,20 @@
+{% extends "basic.html" %}
+{% block content %}
+<h2>Категории</h2>
+{% if categories %}
+{% for category in categories %}
+<form action="{% url 'posts:delete_category' category.pk %}" method="post">
+    {% csrf_token %}
+    <p>{{ category.title }}</p>
+    <button type="submit">Удалить</button>
+</form>
+{% endfor %}
+{% else %}
+<p>Категории не были созданы</p>
+{% endif %}
+<form method="post" action="{% url 'posts:category_list' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Создать категорию</button>
+</form>
+{% endblock %}

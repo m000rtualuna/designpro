@@ -2,10 +2,10 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 import re
-
-from posts.models import UserRequest
+from posts.models import UserRequest, Category
 
 User = get_user_model()
+
 
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
@@ -14,8 +14,10 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'patronymic', 'username', 'email', 'password', 'password_confirm', 'agreement')
-        labels = {'first_name': 'Имя', 'last_name': 'Фамилия', 'patronymic': 'Отчество', 'email': 'Почта', 'agreement': 'Я согласен на обработку персональных данных'}
+        fields = ('first_name', 'last_name', 'patronymic', 'username', 'email', 'password', 'password_confirm',
+                  'agreement')
+        labels = {'first_name': 'Имя', 'last_name': 'Фамилия', 'patronymic': 'Отчество', 'email': 'Почта',
+                  'agreement': 'Я согласен на обработку персональных данных'}
 
         error_messages = {
             'username': {
@@ -66,7 +68,26 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Вы должны согласиться на обработку персональных данных')
         return agreement
 
+
 class RequestForm(forms.ModelForm):
     class Meta:
         model = UserRequest
         fields = ['title', 'description', 'category', 'image']
+        labels = {
+            'title': 'Название заявки', 'description': 'Описание заявки', 'category': 'Категория', 'image': 'Фото',}
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['title']
+        labels = {
+            'title': 'Название категории',}
+
+
+class StatusChangeForm(forms.ModelForm):
+    class Meta:
+        model = UserRequest
+        fields = ['status']
+        labels = {
+            'status': 'Сатус', }

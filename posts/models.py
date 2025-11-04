@@ -27,7 +27,7 @@ class UserRequest(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='media/', blank=False, null=True)
     status = models.CharField(max_length=1, choices=STATUS, default='n')
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
 
 class Category(models.Model):
     title = models.CharField(max_length=50)

@@ -1,0 +1,15 @@
+{% extends "basic.html" %}
+{% block content %}
+<div class="request">
+    <p>Название: {{ userrequest.title }}</p>
+    <p>Описание: {{ userrequest.description }}</p>
+    <p>Категория: {{ userrequest.category }}</p>
+    <img src="{{ userrequest.image.url }}" class="img" alt="Фото">
+    <form method="post" action="{% url 'posts:change_status' pk=userrequest.id %}">
+        <p>Выбор статуса заявки:</p>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</div>
+{% endblock %}

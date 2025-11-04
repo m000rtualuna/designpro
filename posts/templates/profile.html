@@ -1,7 +1,6 @@
 {% extends "basic.html" %}
 {% block content %}
 <h2>Заявки пользователя {{ user.first_name }} {{ user.last_name }}</h2>
-
 <form method="get">
   <label for="status_select">Фильтр по статусу:</label>
   <select name="status" id="status_select">
@@ -10,23 +9,18 @@
     <option value="a" {% if current_status == "a" %}selected{% endif %}>Принято в работу</option>
     <option value="d" {% if current_status == "d" %}selected{% endif %}>Выполнено</option>
   </select>
-  <button type="submit">Фильтровать</button>
+    <button type="submit">Фильтровать</button>
 </form>
-
 {% if userrequest_list %}
-<ul>
-    {% for req in userrequest_list %}
-    <div class="request">
-        <li>
-            <a href="{% url 'posts:request_detail' pk=req.id %}">{{ req.title }}</a>
-            <p>{{ req.description }}</p>
-            <p>Категория: {{ req.category }} </p>
-            <p>Статус: {{ req.get_status_display }}</p>
-            <img src="{{ req.image.url }}" class="img" alt="Фото">
-        </li>
-    </div>
-    {% endfor %}
-</ul>
+{% for req in userrequest_list %}
+<div class="request">
+    <a href="{% url 'posts:request_detail' pk=req.id %}">{{ req.title }}</a>
+    <p>Описание: {{ req.description }}</p>
+    <p>Категория: {{ req.category }} </p>
+    <p>Статус: {{ req.get_status_display }}</p>
+    <img src="{{ req.image.url }}" class="img" alt="Фото">
+</div>
+{% endfor %}
 {% else %}
 <p>У вас пока нет заявок :(</p>
 {% endif %}

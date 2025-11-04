@@ -1,0 +1,8 @@
+{% extends "basic.html" %}
+{% block content %}
+<div class="content">
+    <a href="{% url 'posts:all_requests' %}">Изменение статуса заявки</a>
+    <a href="{% url 'posts:category_list' %}">Редактирование категорий</a>
+</div>
+<a href="{% url 'posts:logout' %}" class="logout">Выйти из аккаунта</a>
+{% endblock %}

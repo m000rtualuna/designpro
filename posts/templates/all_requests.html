@@ -1,20 +1,20 @@
 {% extends "basic.html" %}
 {% block content %}
-<h2>Наши проекты</h2>
+<h2>Все заявки пользователей</h2>
 {% if userrequest_list %}
-{% if accepted_count %}
-<p>Количество принятых в работу заявок: {{ accepted_count }}</p>
-{% endif %}
 {% for req in userrequest_list %}
 <div class="request">
-    <a href="{% url 'posts:request_detail' pk=req.id %}">{{ req.title }}</a>
+    <a href="{% url 'posts:change_status' pk=req.id %}">{{ req.title }}</a>
     <p>Описание: {{ req.description }}</p>
     <p>Категория: {{ req.category }}</p>
     <p>Статус: {{ req.get_status_display }}</p>
+    {% if req.image %}
     <img src="{{ req.image.url }}" class="img" alt="Фото">
+    {% endif %}
 </div>
 {% endfor %}
 {% else %}
 <p>Заявок пока нет</p>
 {% endif %}
 {% endblock %}
+
