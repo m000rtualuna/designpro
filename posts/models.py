@@ -20,6 +20,7 @@ STATUS = (
     ('d', 'Выполнено'),
 )
 
+
 class UserRequest(models.Model):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=200)
@@ -28,6 +29,12 @@ class UserRequest(models.Model):
     image = models.ImageField(upload_to='media/', blank=False, null=True)
     status = models.CharField(max_length=1, choices=STATUS, default='n')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
+
+    def set_status(self, new_status):
+        if new_status in ['a', 'd'] and self.status != 'n':
+            return False
+        return True
+
 
 class Category(models.Model):
     title = models.CharField(max_length=50)

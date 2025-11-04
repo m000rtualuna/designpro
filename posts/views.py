@@ -143,8 +143,17 @@ class AllRequests(generic.ListView):
     def get_queryset(self):
         return UserRequest.objects.all().order_by('-pub_date')
 
+
 class ChangeRequestStatus(UpdateView):
     model = UserRequest
     form_class = StatusChangeForm
     template_name = 'admin_requests_detail.html'
     success_url = reverse_lazy('posts:all_requests')
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        if not obj.set_status(form.cleaned_data['status']):
+            form.add_error('status', "Нельзя изменить статус")
+            return self.render_to_response(self.get_context_data(form=form))
+        obj.save()
+        return super().form_valid(form)
