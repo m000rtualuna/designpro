@@ -96,7 +96,6 @@ form p:has(input[type="checkbox"]) label {
 }
 
 form button[type="submit"] {
-    display: block;
     width: 100%;
     padding: 10px;
     background-color: #c082db;
@@ -107,11 +106,9 @@ form button[type="submit"] {
 }
 
 .logout, .delete {
-    display: block;
     width: 10em;
     padding: 0.5em;
     background-color: #c082db;
-    color: #444444;
     border: none;
     cursor: pointer;
     margin-top: 1em;
@@ -126,6 +123,7 @@ form button[type="submit"] {
     margin: 2em auto;
     padding: 1em;
     border: 2px solid #c082db;
+    overflow-wrap: break-word;
 }
 
 .request li a {
@@ -156,3 +154,21 @@ p {
     color: #c082db;
 }
 
+.btn-delete {
+    background-color: #c082db;
+    color: #444444;
+    padding: 0.5em;
+    border: none;
+    cursor: pointer;
+    height: 2.5em;
+    margin-right: 1em;
+}
+
+.btn-cancel {
+    background-color: #c082db;
+    color: #444444;
+    padding: 0.5em;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+}

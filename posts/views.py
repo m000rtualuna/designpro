@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-import generic
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
@@ -11,6 +10,7 @@ from django.utils import timezone
 from django.views import generic
 from django.views.generic import CreateView, UpdateView, DeleteView
 from posts.models import UserRequest
+import generic
 
 User = get_user_model()
 
@@ -38,9 +38,16 @@ def logout_view(request):
 
 @login_required
 def profile(request):
-    user_requests = UserRequest.objects.filter(user=request.user)
-    context = {'user': request.user, 'userrequest_list': user_requests}
-    return render(request, 'profile.html', context)
+    status = request.GET.get('status')
+    ALLOWED = {'n', 'a', 'd'}
+    qs = UserRequest.objects.filter(user=request.user)
+    if status in ALLOWED:
+        qs = qs.filter(status=status)
+    user_requests = qs.order_by('-pub_date')
+    return render(request, 'profile.html', {
+        'userrequest_list': user_requests,
+        'current_status': status,
+    })
 
 @login_required
 def create_request(request):
@@ -62,7 +69,7 @@ class UsersRequestListView(generic.ListView):
     template_name = 'index.html'
 
     def get_queryset(self):
-        return UserRequest.objects.filter(status='d')
+        return UserRequest.objects.filter(status='d').order_by('-pub_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

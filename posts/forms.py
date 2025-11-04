@@ -69,4 +69,4 @@ class RegistrationForm(forms.ModelForm):
 class RequestForm(forms.ModelForm):
     class Meta:
         model = UserRequest
-        fields = ['title', 'description', 'image']
+        fields = ['title', 'description', 'category', 'image']

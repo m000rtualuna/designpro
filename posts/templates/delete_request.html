@@ -2,9 +2,12 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
+    {% if object.user == request.user and object.status == 'n' %}
     <p>Вы уверены, что хотите удалить заявку "{{ object.title }}"?</p>
-    <input type="submit" value="Удалить">
-    <a href="{% url 'posts:request_detail' pk=object.pk %}">Отмена</a>
+        <input type="submit" value="Удалить" class="btn-delete">
+    {% else %}
+        <p>Эту заявку нельзя удалить</p>
+    {% endif %}
+    <a href="{% url 'posts:request_detail' pk=object.pk %}" class="btn-cancel">Вернуться</a>
 </form>
 {% endblock %}
-
