@@ -14,6 +14,7 @@ class AdvUser(AbstractUser):
     class Meta:
         pass
 
+
 STATUS = (
     ('n', 'Новая заявка'),
     ('a', 'Принято в работу'),
@@ -30,10 +31,10 @@ class UserRequest(models.Model):
     status = models.CharField(max_length=1, choices=STATUS, default='n')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
 
-    def set_status(self, new_status):
-        if new_status in ['a', 'd'] and self.status != 'n':
-            return False
-        return True
+    #def set_status(self, new_status):
+     #   if new_status in ['a', 'd'] and self.status != 'n':
+      #      return False
+       # return True
 
 
 class Category(models.Model):

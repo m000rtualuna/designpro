@@ -1,4 +1,3 @@
-import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.views import LoginView
@@ -48,7 +47,7 @@ def logout_view(request):
 @login_required
 def profile(request):
     if request.user.is_staff:
-        return render(request, 'admin_profile.html', {'user_obj': request.user})
+        return render(request, 'admin_profile.html')
 
     status = request.GET.get('status')
     ALLOWED = {'n', 'a', 'd'}
@@ -96,11 +95,14 @@ class RequestDetail(generic.DetailView):
     template_name = 'request_detail.html'
 
 
-class DeleteRequest(PermissionRequiredMixin, DeleteView):
+class DeleteRequest(LoginRequiredMixin, DeleteView):
     model = UserRequest
     success_url = reverse_lazy('posts:index')
-    permission_required = 'posts.delete_userrequest'
     template_name = "delete_request.html"
+
+    def has_permission(self, request):
+        obj = self.get_object()
+        return obj.AdvUser == request.user
 
 
 @staff_member_required
@@ -114,6 +116,7 @@ def create_category(request):
         form = CategoryForm()
     return render(request, 'category_list.html', {'form': form})
 
+
 @staff_member_required
 def category_list(request):
     categories = Category.objects.all().order_by('title')
@@ -126,6 +129,7 @@ def category_list(request):
         form = CategoryForm()
     return render(request, 'category_list.html', {'categories': categories, 'form': form})
 
+
 @staff_member_required
 def delete_category(request, pk):
     if request.method == 'POST':
@@ -137,7 +141,6 @@ def delete_category(request, pk):
 
 class AllRequests(generic.ListView):
     model = UserRequest
-    paginate_by = 10
     template_name = 'all_requests.html'
 
     def get_queryset(self):
@@ -149,11 +152,3 @@ class ChangeRequestStatus(UpdateView):
     form_class = StatusChangeForm
     template_name = 'admin_requests_detail.html'
     success_url = reverse_lazy('posts:all_requests')
-
-    def form_valid(self, form):
-        obj = form.save(commit=False)
-        if not obj.set_status(form.cleaned_data['status']):
-            form.add_error('status', "Нельзя изменить статус")
-            return self.render_to_response(self.get_context_data(form=form))
-        obj.save()
-        return super().form_valid(form)

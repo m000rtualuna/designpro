@@ -1,12 +1,12 @@
 {% extends "basic.html" %}
 {% block content %}
 <div class="request">
-        <h2>Проект «{{ userrequest.title }}»</h2>
-        <p>Описание: {{ userrequest.description }}</p>
-        <p>Категория: {{ userrequest.category }}</p>
-        <p>Статус: {{ userrequest.get_status_display }}</p>
-        <img src="{{ userrequest.image.url }}" class="img" alt="Фото">
-    {% if request.user.is_authenticated and request.user.pk == userrequest.user.pk %}
+    <h2>Проект «{{ userrequest.title }}»</h2>
+    <p>Описание: {{ userrequest.description }}</p>
+    <p>Категория: {{ userrequest.category }}</p>
+    <p>Статус: {{ userrequest.get_status_display }}</p>
+    <img src="{{ userrequest.image.url }}" class="img" alt="Фото">
+    {% if request.user.is_authenticated and request.user.pk == userrequest.user.pk and userrequest.status == 'n' %}
     <a href="{% url 'posts:request_delete' pk=userrequest.pk %}" class="delete">Удалить заявку</a>
     {% endif %}
 </div>
