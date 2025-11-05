@@ -4,12 +4,18 @@
     <p>Название: {{ userrequest.title }}</p>
     <p>Описание: {{ userrequest.description }}</p>
     <p>Категория: {{ userrequest.category }}</p>
+    <p>Дата заявки: {{ userrequest.pub_date }}</p>
+    <p>Статус: {{ userrequest.get_status_display }}</p>
     <img src="{{ userrequest.image.url }}" class="img" alt="Фото">
-    <form method="post" action="{% url 'posts:change_status' pk=userrequest.id %}">
+    {% if userrequest.status == 'n' %}
+    <form method="post" action="{% url 'posts:change_status' pk=userrequest.id %}" enctype="multipart/form-data">
         <p>Выбор статуса заявки:</p>
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Сохранить изменения</button>
-    </form>
+            </form>
+    {% else %}
+    <p>Смена статуса невозможна</p>
+    {% endif %}
 </div>
 {% endblock %}

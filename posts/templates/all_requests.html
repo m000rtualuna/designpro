@@ -7,6 +7,7 @@
     <a href="{% url 'posts:change_status' pk=req.id %}">{{ req.title }}</a>
     <p>Описание: {{ req.description }}</p>
     <p>Категория: {{ req.category }}</p>
+    <p>Дата заявки: {{ req.pub_date }}</p>
     <p>Статус: {{ req.get_status_display }}</p>
     {% if req.image %}
     <img src="{{ req.image.url }}" class="img" alt="Фото">

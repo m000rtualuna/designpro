@@ -16,12 +16,17 @@ class AdvUser(AbstractUser):
     class Meta:
         pass
 
+
 ALLOWED_USERREQUEST_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.bmp']
+MAX_IMAGE_SIZE = 2 * 1024 * 1024
 
 def validate_userrequest_image_extension(value):
+    if value.size > MAX_IMAGE_SIZE:
+        raise ValidationError('Размер изображения не должен превышать 2МБ')
     ext=os.path.splitext(value.name)[1].lower()
     if ext not in ALLOWED_USERREQUEST_IMAGE_EXTENSIONS:
         raise ValidationError('Неккоректный формат изображения')
+
 
 STATUS = (
     ('n', 'Новая заявка'),
@@ -39,14 +44,15 @@ class UserRequest(models.Model):
     status = models.CharField(max_length=1, choices=STATUS, default='n')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
 
-    #def set_status(self, new_status):
-     #   if new_status in ['a', 'd'] and self.status != 'n':
-      #      return False
-       # return True
-
 
 class Category(models.Model):
     title = models.CharField(max_length=50)
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    comment_text = models.TextField(max_length=150)
+    userrequest = models.ForeignKey(UserRequest, on_delete=models.CASCADE)
+    comment_image = models.ImageField(upload_to='media/', validators=[validate_userrequest_image_extension])

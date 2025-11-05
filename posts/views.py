@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 from django.utils import timezone
 from django.views import generic
 from django.views.generic import CreateView, UpdateView, DeleteView
-from posts.models import UserRequest, Category
+from posts.models import UserRequest, Category, STATUS, Comment
 from .forms import CategoryForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
@@ -104,6 +104,12 @@ class DeleteRequest(LoginRequiredMixin, DeleteView):
         obj = self.get_object()
         return obj.AdvUser == request.user
 
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.image:
+            self.object.image.delete(save=False)
+            return super().delete(request, *args, **kwargs)
+
 
 @staff_member_required
 def create_category(request):
@@ -152,3 +158,10 @@ class ChangeRequestStatus(UpdateView):
     form_class = StatusChangeForm
     template_name = 'admin_requests_detail.html'
     success_url = reverse_lazy('posts:all_requests')
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        comment_text = form.cleaned_data['comment_text']
+        comment_image = form.cleaned_data['comment_image']
+        if comment_text or comment_image:
+            Comment.objects.create(userrequest=self.object, comment_text=comment_text, comment_image=comment_image)
+        return response

@@ -10,6 +10,7 @@
     <a href="{% url 'posts:request_detail' pk=req.id %}">{{ req.title }}</a>
     <p>Описание: {{ req.description }}</p>
     <p>Категория: {{ req.category }}</p>
+    <p>Дата заявки: {{ req.pub_date }}</p>
     <p>Статус: {{ req.get_status_display }}</p>
     <img src="{{ req.image.url }}" class="img" alt="Фото">
 </div>

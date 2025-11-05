@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 import re
-from posts.models import UserRequest, Category
+from posts.models import UserRequest, Category, STATUS, Comment
 
 User = get_user_model()
 
@@ -73,21 +73,32 @@ class RequestForm(forms.ModelForm):
     class Meta:
         model = UserRequest
         fields = ['title', 'description', 'category', 'image']
-        labels = {
-            'title': 'Название заявки', 'description': 'Описание заявки', 'category': 'Категория', 'image': 'Фото',}
+        labels = {'title': 'Название заявки', 'description': 'Описание заявки', 'category': 'Категория', 'image': 'Фото',}
 
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['title']
-        labels = {
-            'title': 'Название категории',}
+        labels = {'title': 'Название категории',}
 
 
 class StatusChangeForm(forms.ModelForm):
+    status = forms.ChoiceField(choices=STATUS, label='Новый статус для заявки')
+    comment_text = forms.CharField( required=False, label="Комментарий (обязателен для статуса 'Принято в работу')", max_length=100)
+    comment_image = forms.ImageField(required=False, label="Изображение (обязательно для статуса 'Выполнено')")
+
     class Meta:
         model = UserRequest
         fields = ['status']
-        labels = {
-            'status': 'Сатус', }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        status=cleaned_data.get('status')
+        comment_text=cleaned_data.get('comment_text')
+        comment_image=cleaned_data.get('comment_image')
+        if status == 'a' and not comment_text:
+            raise forms.ValidationError('')
+        elif status == 'd' and not comment_image:
+            raise forms.ValidationError('')
+        return cleaned_data
