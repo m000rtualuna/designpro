@@ -1,5 +1,7 @@
+import os
 from datetime import datetime
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from designpro import settings
 
@@ -14,6 +16,12 @@ class AdvUser(AbstractUser):
     class Meta:
         pass
 
+ALLOWED_USERREQUEST_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.bmp']
+
+def validate_userrequest_image_extension(value):
+    ext=os.path.splitext(value.name)[1].lower()
+    if ext not in ALLOWED_USERREQUEST_IMAGE_EXTENSIONS:
+        raise ValidationError('Неккоректный формат изображения')
 
 STATUS = (
     ('n', 'Новая заявка'),
@@ -27,7 +35,7 @@ class UserRequest(models.Model):
     description = models.CharField(max_length=200)
     pub_date = models.DateTimeField(default=datetime.now)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='media/', blank=False, null=True)
+    image = models.ImageField(upload_to='media/', blank=False, null=True, validators=[validate_userrequest_image_extension])
     status = models.CharField(max_length=1, choices=STATUS, default='n')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
 
