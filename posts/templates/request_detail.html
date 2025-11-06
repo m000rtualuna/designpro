@@ -7,8 +7,16 @@
     <p>Дата заявки: {{ userrequest.pub_date }}</p>
     <p>Статус: {{ userrequest.get_status_display }}</p>
     <img src="{{ userrequest.image.url }}" class="img" alt="Фото">
+    {% for comment in userrequest.comment_set.all %}
+        {% if comment.comment_text %}
+        <p>Комментарий: {{ comment.comment_text }}</p>
+        {% endif %}
+        {% if comment.comment_image %}
+        <img src="{{ comment.comment_image.url }}" class="img" alt="Фото">
+        {% endif %}
+    {% endfor %}
     {% if request.user.is_authenticated and request.user.pk == userrequest.user.pk and userrequest.status == 'n' %}
     <a href="{% url 'posts:request_delete' pk=userrequest.pk %}" class="delete">Удалить заявку</a>
     {% endif %}
 </div>
-{% endblock %} 
+{% endblock %}

@@ -164,4 +164,5 @@ class ChangeRequestStatus(UpdateView):
         comment_image = form.cleaned_data['comment_image']
         if comment_text or comment_image:
             Comment.objects.create(userrequest=self.object, comment_text=comment_text, comment_image=comment_image)
+            self.object.refresh_from_db()
         return response
